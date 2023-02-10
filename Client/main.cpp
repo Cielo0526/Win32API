@@ -271,32 +271,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     return TRUE;
 }
 
-int g_x = 0;
-int g_y = 0;
-
-/* 물체가 여러개라면? 다 다시 매번 그려야되나? 그렇다고 안그릴 수도 없고?
-   그러면 그거에 따른 프레임과 최적화는..?*/
-
-#include <vector>
-
-using std::vector;
-
-struct tObjInfo
-{
-    POINT g_ptObjPos;
-    POINT g_ptObjScale;
-
-};
-
-vector<tObjInfo> g_vecInfo;
-
-/* 좌 상단 */
-POINT g_ptLT;
-/* 우 하단 */
-POINT g_ptRB;
-
-/* 무작정 Ractangle을 실행시킬 수 없으니까 클릭 될 때만 하게끔 하자*/
-bool bLbtDown = false;
 
 //
 //  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
@@ -337,117 +311,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        /*hdc도 핸들 값입니다.Device Context( 장치 그리기) 를 받아옴
-          그걸 밑에 Rectangle에 넣어준거야 hdc도 찾아보면 결국 int 변수 하나 들고있는 구조체인데
-          즉, BeginPaint라는 놈은 Device Context를 만들어서 그 ID값을 돌려주는 거지 */
-          /* Device Context란?
-             그리기 작업 수행에 필요한 Data들의 집합
-             ex) 그림을 그리려면 펜, 붓, 색 등등이 필요하니까
-             위의 인자를 통해 DC의 목적지는 hWnd, DC의 펜은 기본(black), DC의 브러쉬는 기본 브러쉬(White)
-             인거로 정해진거임*/
+     
+        //Rectangle(hdc, 1180, 668, 1280, 768);
 
-             /* 직접 펜을 만들어서 DC에 넣으면 다른 색 펜이나 브러쉬 사용이 가능하겠지? */
-
-        HPEN hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-        /* 펜 변경해서 ID값 받아옴 */
-        HBRUSH hBlueBrush = CreateSolidBrush(RGB(0, 0, 255));
-        //GetStockObject();
-    /*자주 쓰느 것들을 미리 만들어둠. 그것들 가져오는 함수임*/
-
-
-        HPEN hDefaultPen = (HPEN)SelectObject(hdc, hRedPen);
-        HBRUSH hDefaultBrush = (HBRUSH)SelectObject(hdc, hBlueBrush);
-        /* SelectObject는 범용적인 함수라서 void 타입을 반환해 그래서 반환 타입을 캐스팅 해줘야함*/
-        /* 기본 펜 아이디 값을 받아둠*/
-
-        HWND;
-        HPEN;
-        HBRUSH;
-
-        /* 이런 비슷한 애들도 있어. 윈도우 아이디(무슨 윈도우인지) 값 받고,
-           PEN이라는 커널 오브젝트 아아디 받고, BRUSH라는 커널 오브젝트 아이디 받고 */
-           /* 커널 오브젝트이다보니, 우리는 ID값으로만 받아야 하고, ID값만 있으면 우리 입장에서는 구별이 어려우니
-              이렇게 구조체를 통해 자료형을 만들어서 우리가 알아듣기 쉽게 해둔 것 */
-
-              /* 윈도우 객체처럼, 운영체제에서 관리해서 내가 맘대로 다이렉트로 건들지 못하는걸 curnel object 라고 함
-                 이런 경우 ID 값을 우리에게 줌 그걸 이용해서 제공하는 다른 함수들을 통해서 사용하게 됨
-                 윈도우 핸들 (윈도우(창) 값, 어떤 윈도우인지)
-                 윈도우 좌표
-                 HDC?
-                 작업 영역 (타이틀바와 메뉴바 아래의 창 내부) 0,0 은 맨 왼쪽 위. 단위는 픽셀 */
-
-        if (bLbtDown)
-        {
-            Rectangle(hdc
-                , g_ptLT.x, g_ptLT.y
-                , g_ptRB.x, g_ptRB.y);
-            /* 위에서 정한 dc의 값으로 사각형을 그리는거지*/
-            /* 참고로 1 픽셀은 3byte로 되어서 RGB (각각 1byte씩 0~255) */
-        }
-
-        for (size_t i = 0; i < g_vecInfo.size(); ++i)
-        {
-            Rectangle(hdc
-                , g_vecInfo[i].g_ptObjPos.x - g_vecInfo[i].g_ptObjScale.x / 2
-                , g_vecInfo[i].g_ptObjPos.y - g_vecInfo[i].g_ptObjScale.y / 2
-                , g_vecInfo[i].g_ptObjPos.x + g_vecInfo[i].g_ptObjScale.x / 2
-                , g_vecInfo[i].g_ptObjPos.y + g_vecInfo[i].g_ptObjScale.y / 2);
-        }
-        /* 저장한 정보의 Rectangle을 만들어 놓은 상태로 유지하게 해줌
-           근데 이걸 해보면 물체 늘어날수록 마우스 움직이면 겁나 깜빡거려
-
-           왜냐면 마우스만 움직여도 전체 무효화 영역이 생기고, 그러면 벡터 순환 다 다시 하고 그러니까
-           사람이 60~100 프레임을 느끼는데 그 60~100 프레임 안에 무효화 영역과 재순환이 걸리면
-           깜빡거림을 보게 되는것
-
-           해결하려면 우리가 데이터를 표시할 픽셀 데이터를 두가지를 관리하면 돼
-           완성되어서 보여줄 픽셀 데이터와, 그리는 동안 저장될 픽셀 데이터*/
-
-        SelectObject(hdc, hDefaultPen);
-        SelectObject(hdc, hDefaultBrush);
-
-        DeleteObject(hRedPen);
-        DeleteObject(hBlueBrush);
-        /* 할 일 끝났으면 다시 디폴트로 돌려주고 지울거 지우자*/
-
-
-        // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-        EndPaint(hWnd, &ps);
+      
+       EndPaint(hWnd, &ps);
     }
     /*swtich case 내부에서 변수를 만들고 싶을 때 중괄호를 다시 쳐줘야함*/
     break;
     case WM_KEYDOWN:
     {
-        switch (wParam)
-            /* wParam 이 키보드 눌린 정보, lParam 이 마우스 클릭 정보임*/
-        {
-        case VK_UP:
-            // g_ptObjPos.y -= 10;
-            InvalidateRect(hWnd, nullptr, true);
-            /* nullptr 을 영역으로 하면 전체가 됨*/
-            /* 세번째 True False는 무효화영역이 발생했을 때 한 번 싹 청소를 하냐 마냐 설정*/
-            break;
-        case VK_DOWN:
-            // g_ptObjPos.y += 10;
-            InvalidateRect(hWnd, nullptr, true);
-            break;
-        case VK_LEFT:
-            // g_ptObjPos.x -= 10;
-            InvalidateRect(hWnd, nullptr, true);
-            break;
-        case VK_RIGHT:
-            // g_ptObjPos.x += 10;
-            InvalidateRect(hWnd, nullptr, true);
-            break;
-
-            /* 키 다운을 할 때 처음 1초 정도 막히는 부분이 있어. 그걸 또 해결해줘야해*/
-
-        case 'W':
-        {
-            int a = 0;
-        }
-        break;
-        }
     }
     break;
 
@@ -455,14 +328,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         /* 특정 키가 눌렀다가 떼질 때*/
     case WM_LBUTTONDOWN:
         /* 마우스가 눌릴 때*/
-    {
-        g_ptLT.x = LOWORD(lParam); /* X 좌표만 가져오는 비트 연산 함수ㅡ*/
-        g_ptLT.y = HIWORD(lParam); /* Y 좌표만 자겨오는 비트 연산 함수 */
-        lParam;
-        bLbtDown = true;
-        /* 4바이트 짜리. 2바이트(약 6.5만)씩 잘라서 X, Y 좌표를 담고 있다*/
-
-    }
     break;
 
     /* 타이머 쓰면 따로 키를 누르지 않아도 여기 들어옴 */
@@ -471,28 +336,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     break;
 
     case WM_MOUSEMOVE:
-        g_ptRB.x = LOWORD(lParam);
-        g_ptRB.y = HIWORD(lParam);
-        // InvalidateRect(hWnd, nullptr, true);
-        /* 메세지 처리 방식으로 안할꺼니까 이거 지우자. 리소스 잡아먹는다*/
         break;
-        /* 위에서 클릭한 순간을 좌상단으로 보고, 마우스 움직이는걸 우 하단으로 보자는 거지 */
-
     case WM_LBUTTONUP:
-    {
-        tObjInfo info = {};
-        info.g_ptObjPos.x = (g_ptLT.x + g_ptRB.x) / 2;
-        info.g_ptObjPos.y = (g_ptLT.y + g_ptRB.y) / 2;
-
-        info.g_ptObjScale.x = abs(g_ptLT.x - g_ptRB.x); // 절대값 함수
-        info.g_ptObjScale.y = abs(g_ptLT.y - g_ptRB.y);
-
-        g_vecInfo.push_back(info);
-        bLbtDown = false;
-        InvalidateRect(hWnd, nullptr, true);
-    }
-
-    break;
+        break;
 
     case WM_DESTROY:
         PostQuitMessage(0);

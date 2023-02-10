@@ -18,7 +18,44 @@
 						{\
 							static type mgr;\
 							return &mgr;\
-						 }
+						 }\
+					private:\
+						type();\
+						~type();
 // 싱글톤을 만들때 type에 이름만 넣어주면 되겠지?
 // \(역슬래시)를 끝에 넣어주면 다음 줄도 define에 속한다는 의미
 
+
+#define fDT CTimeMgr::GetInst()->GetfDT()
+// float 형 초당 움직이는 픽셀
+#define DT CTimeMgr::GetInst()->GetDT()
+// doubld 형 초당 움직이는 픽셀
+
+
+// Scene 안에 존재하는 Object 들을 나눔
+enum class GROUP_TYPE
+{
+	DEFAULT,			// 0
+	PLAYER,				// 1
+	MISSILE,			// 2
+	MONSTER,			// 3
+
+
+
+
+	END = 32,			// 32
+};
+
+// Scene들의 종류를 나눔
+enum class SCENE_TYPE
+{
+	TOOL,		//0, 내가 Scene을 만들 때 필요한 것들의 모음
+	START,
+
+	STAGE_01,
+	STAGE_02,
+
+
+
+	END,
+};

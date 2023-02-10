@@ -1,7 +1,2 @@
-﻿  CCore.cpp
-  CKeyMgr.cpp
-  main.cpp
-C:\Users\GKL\Desktop\승우\Win32API\Client\main.cpp(363,13): warning C4091: '': 변수를 선언하지 않으면 'HWND__ *' 왼쪽은 무시됩니다.
-C:\Users\GKL\Desktop\승우\Win32API\Client\main.cpp(364,13): warning C4091: '': 변수를 선언하지 않으면 'HPEN__ *' 왼쪽은 무시됩니다.
-C:\Users\GKL\Desktop\승우\Win32API\Client\main.cpp(365,15): warning C4091: '': 변수를 선언하지 않으면 'HBRUSH__ *' 왼쪽은 무시됩니다.
+﻿  CKeyMgr.cpp
   Client.vcxproj -> C:\Users\GKL\Desktop\승우\Win32API\x64\Debug\Client.exe
