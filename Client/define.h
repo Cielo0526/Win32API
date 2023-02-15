@@ -31,6 +31,11 @@
 #define DT CTimeMgr::GetInst()->GetDT()
 // doubld 형 초당 움직이는 픽셀
 
+#define KEY_CHECK(key, state) CKeyMgr::GetInst()->GetKeyState(key) == state
+// 기본 Key 체크
+#define KEY_HOLD(key) KEY_CHECK(key, KEY_STATE::HOLD)   // HOLD 체크
+#define KEY_TAP(key) KEY_CHECK(key, KEY_STATE::TAP)		// TAP 체크
+#define KEY_AWAY(key) KEY_CHECK(key, KEY_STATE::AWAY)   // AWAY 체크
 
 // Scene 안에 존재하는 Object 들을 나눔
 enum class GROUP_TYPE

@@ -23,6 +23,18 @@ public:
 
 	Vec2 GetPos() { return m_vPos; }
 	Vec2 GetScale() { return m_vScale; }
+	
+
+public:
+	virtual void update() = 0;
+	virtual void render(HDC _dc);
+
+
+	// 오브젝트들도 여러가지 성격이 있어. 수풀은 그냥 시간 내내 흔들거릴거고,
+	// 돌같은건 뭔가 변화가 있을 때까지 가만히 있을거고 플레이어는 움직일때마다 변하고
+	// 그렇기 떄문에 virtual로 가상 함수로 만들어서 update와 render를 해줘야
+	// 성격이 다른 오브젝트들 마다의 다른 update와 render를 할 수 있다.
+
 
 public:
 	CObject();

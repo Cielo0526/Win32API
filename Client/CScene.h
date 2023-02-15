@@ -14,8 +14,11 @@ class CObject;
 class CScene
 {
 
+	// 나중에 이제 Scene 안에 Object들을 넣어야 할 때 밑의 vector에 접근해서 넣어줘야 하는데 자식 클래스에 쓰니까
+	// protected가 편하긴 한데, 결국 자식쪽에서도 멤버에 맘대로 접근이 가능하니까 나중에 디버그 하기 좀 힘들어
+	// 그래서 그냥 private로 두고 밑에 vector에 넣어주는 함수를 만들어서 그걸 protected로 주면 관리가 편하지 않을까?
 private:
-	vector<CObject*> m_arrVecObj[(UINT)GROUP_TYPE::END];
+	vector<CObject*> m_arrObj[(UINT)GROUP_TYPE::END];
 	// CObject*로 하는 이유는 얘가 제일 부모격이니까 이거 하나로 전부 관리 가능
 	// 물론 우리는 오브젝트를 그룹으로 나눌꺼라 이 vector가 그룹 수만큼 있어야 함
 	// 그래서 이런 vector를 배열로 만들어버려서 enum 으로 묶어버리자.
@@ -25,9 +28,33 @@ public:
 	void SetName(const wstring& _strName) { m_strName = _strName; }
 	const wstring& GetName() { return m_strName; }
 
+
+	void update();
+	void render(HDC _dc);
+
+	virtual void Enter() = 0;
+	// 각 Scene은 자기 구성 요소에 맞는 기본 시작 작업이 필요하고 이걸 부모 포인터로 호출하기 위해서
+	// 부모는 구현할 필요 없는 Start 함수를 만들어야 함 -> 순수 가상 함수(부모가 실제 객체화는 못시키고 자식 쪽에 이런게 있다고 알리는 용도)가 되면 좋음
+	// 자식 클래스들이 Start를 구현하지 않으면 객체를 만들 수 없어짐 또한 부모 클래스는 실수로 객체를 만들지 못함
+	virtual void Exit() = 0;
+	// 반대로 Scene간의 전환이 일어날 때 원래의 Scene에서 이탈해야 하니까 또 함수 하나 만들고
+
+
+	// 이렇게 자료가 출입할 수 있는 통로를 제한해두는 것이 나중에 디버그나 데이터 관리하기 수월하다.
+	// 당장은 불편하더라도 나중에 문제가 커지는 걸 잡아주는거지
+public:
+	void AddObject(CObject* _pObj, GROUP_TYPE _eType)
+	{
+		m_arrObj[(UINT)_eType].push_back(_pObj);
+	}
+	// 대신 이렇게 헤더에 바로 구현해서 inline 함수로 만들어서 호출 비용이 들지 않게끔 한다.
+
 public:
 	CScene();
 	virtual ~CScene();
 
 };
 
+// 순수 가상 함수가 있는 클래스 -> 추상 클래스 -> 부모로만 존재하는, 객체를 만들 수 없는 클래스 
+// 함수명() = 0; 이렇게 선언하면 되고, 따로 cpp에 구현 안해둬도 됨.
+// 자식이 상속받아서 자식 안에서 구현하면 됨. 대신 모든 자식이 다 구현해놔야만 함

@@ -52,7 +52,7 @@ enum class KEY
 	ALT,
 	CTRL,
 	LSHIFT,
-	SAPCE,
+	SPACE,
 	ENTER,
 	ESC,
 
