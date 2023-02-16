@@ -37,6 +37,8 @@
 #define KEY_TAP(key) KEY_CHECK(key, KEY_STATE::TAP)		// TAP 체크
 #define KEY_AWAY(key) KEY_CHECK(key, KEY_STATE::AWAY)   // AWAY 체크
 
+#define PI 3.1415926535f
+
 // Scene 안에 존재하는 Object 들을 나눔
 enum class GROUP_TYPE
 {

@@ -11,7 +11,6 @@ public:
 
 private:
     void CreateMissile();
-    void UpgradeMissile();
 
 
 };

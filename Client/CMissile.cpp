@@ -2,11 +2,9 @@
 #include "CMissile.h"
 #include "CTimeMgr.h"
 
-#include <math.h>
 
 CMissile::CMissile()
-	: m_fDir(1)
-	, m_fxDir(0)
+	: m_fTheta(PI / 2.f)
 {
 }
 
@@ -17,10 +15,10 @@ CMissile::~CMissile()
 void CMissile::update()
 {
 	Vec2 vPos = GetPos();
-	vPos.y += 400.f * fDT * m_fDir;
 
-	if (m_fxDir == 1||-1)
-	vPos.x += 200.f * fDT * m_fxDir;
+	vPos.x += 600.f * cosf(m_fTheta) * fDT;
+	vPos.y -= 600.f * sinf(m_fTheta) * fDT;
+	// 컴퓨터의 좌표는 위아래가 뒤집혀있으니까
 
 	SetPos(vPos);
 

@@ -29,12 +29,14 @@ void CScene_Start::Enter()
 	// Moster Object 추가
 	int iMonCount = 16;
 	float fMoveDist = 25.f;
+	float fMoveDist2 = 50.f;
 	float fObjScale = 50.f;
 	Vec2 vResolution = CCore::GetInst()->GetResolution();
 	// 변수 생성과 동시에 이렇게 해버리면 복사 생성자가 됨. -> 생성자 오버로딩으로 해결
 	CMonster* pMonsterObj = nullptr;
 
 	float fTerm = (vResolution.x - ((fMoveDist + fObjScale / 2.f) * 2)) / (float)(iMonCount - 1);
+	float fTerm2 = (vResolution.x - ((fMoveDist + fObjScale / 2.f) * 2)) / (float)(iMonCount - 6 - 1);
 
 	for (int i = 0; i < iMonCount; ++i)
 	{
@@ -46,6 +48,18 @@ void CScene_Start::Enter()
 		AddObject(pMonsterObj, GROUP_TYPE::DEFAULT);
 
 	}
+
+	for (int i = 0; i < iMonCount-6; ++i)
+	{
+		pMonsterObj = new CMonster;
+		pMonsterObj->SetPos(Vec2((fMoveDist2 + fObjScale / 2.f) + (float)i * fTerm2, 120.f));
+		pMonsterObj->SetCenterPos(pMonsterObj->GetPos());
+		pMonsterObj->SetMoveDistance(fMoveDist2);
+		pMonsterObj->SetScale(Vec2(fObjScale, fObjScale));
+		AddObject(pMonsterObj, GROUP_TYPE::DEFAULT);
+
+	}
+
 
 }
 

@@ -1,2 +1,12 @@
-﻿  CPlayer.cpp
+﻿  CCore.cpp
+  CKeyMgr.cpp
+  CMissile.cpp
+  CMonster.cpp
+  CObject.cpp
+  CPlayer.cpp
+  CScene.cpp
+  CSceneMgr.cpp
+  CScene_Start.cpp
+  CTimeMgr.cpp
+  main.cpp
   Client.vcxproj -> C:\Users\GKL\Desktop\승우\Win32API\x64\Debug\Client.exe
