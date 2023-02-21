@@ -8,12 +8,20 @@ class CMissile :
 private:
     float       m_fTheta;       // 이동방향
 
+    Vec2        m_vDir;         // 나아갈 방향(벡터)
+
 public:
     virtual void update();
     virtual void render(HDC _dc);
 
 public:
     void SetDir(float _fTheta)    { m_fTheta = _fTheta; }
+    void SetDir(Vec2 _vDir)
+    {
+        m_vDir = _vDir; 
+        m_vDir.Normalize();
+    }
+
 
 public:
     CMissile();

@@ -5,6 +5,7 @@
 #include "Client.h"
 #include "CCore.h"
 #include "pch.h"
+#include <crtdbg.h>
 
 #define MAX_LOADSTRING 100
 
@@ -71,6 +72,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시
        _In_ -> 데이터가 이 함수에 입력된다
        _In_opt_ (optional) -> 뭔가 부가적으로 입력(들어오는)되는 변수가*/
 {
+    // 메모리 누수(렉) 관리
+    _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+    _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+    // _crtBreakAlloc();
+    
+    new int;
+    // 왜 안되냐
+
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
     // (아무런 의미 없다고 알려줌)

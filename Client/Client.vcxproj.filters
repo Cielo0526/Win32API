@@ -16,9 +16,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Engine\02. Core">
-      <UniqueIdentifier>{b9b1d220-e880-40d5-bd6c-f005962ebc37}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\03. Manager">
       <UniqueIdentifier>{addfa600-d112-4133-9a92-b4ebe158558b}</UniqueIdentifier>
     </Filter>
@@ -52,6 +49,27 @@
     <Filter Include="Engine\05. Scene\Scene_Tool">
       <UniqueIdentifier>{16ab2489-aada-4aa5-8a0b-4b1075bf15aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06. Resourse">
+      <UniqueIdentifier>{a962217d-11fc-4a80-861c-7a36387e9cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Resourse\Texture">
+      <UniqueIdentifier>{3019988b-dcb2-4cf5-a6f4-994dcf76b25c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Resourse\Sound">
+      <UniqueIdentifier>{01fe8bb5-db1a-4bae-84f9-314ad4be9674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Core">
+      <UniqueIdentifier>{b9b1d220-e880-40d5-bd6c-f005962ebc37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\PathMgr">
+      <UniqueIdentifier>{eae870fa-70c4-4543-93f2-91a8f8265ead}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\ResMgr">
+      <UniqueIdentifier>{98456513-5045-495e-9e74-21c1216ce53b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component">
+      <UniqueIdentifier>{3e5ffd73-2d7a-4c91-8808-f3d734af7f4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -66,7 +84,6 @@
     <ClInclude Include="Client.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="define.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
@@ -102,6 +119,27 @@
     </ClInclude>
     <ClInclude Include="CMissile.h">
       <Filter>Engine\04. Object\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="CRes.h">
+      <Filter>Engine\06. Resourse</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Engine\06. Resourse\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Engine\06. Resourse\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>Engine\03. Manager\PathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="CResMgr.h">
+      <Filter>Engine\03. Manager\ResMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>Engine\07. Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +188,24 @@
     </ClCompile>
     <ClCompile Include="CMissile.cpp">
       <Filter>Engine\04. Object\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="CRes.cpp">
+      <Filter>Engine\06. Resourse</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Engine\06. Resourse\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Engine\06. Resourse\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>Engine\03. Manager\PathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CResMgr.cpp">
+      <Filter>Engine\03. Manager\ResMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>Engine\07. Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "CCore.h"
 
-#include "CObject.h"
 #include "CTimeMgr.h"
 #include "CSceneMgr.h"
 #include "CKeyMgr.h"
+#include "CPathMgr.h"
 //CCore* CCore::g_pInst = nullptr;
 
 CCore::CCore()
@@ -56,9 +56,11 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	// 그리고 환원받은 1픽셀짜리 기본 비트맵을 버려
 
 	// Manager 초기화
+	CPathMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();
+
 
 	return S_OK;
 }
@@ -108,4 +110,5 @@ void CCore::progress()
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y
 		, m_memDC, 0, 0, SRCCOPY);
 
+	//CTimeMgr::GetInst()->render();
 }

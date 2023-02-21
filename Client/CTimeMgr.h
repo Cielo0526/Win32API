@@ -33,9 +33,10 @@ private:
 public:
 	void init();
 	// 초기화
-
 	void update();
 	// 매 프레임마다
+	void render();
+
 
 public:
 	double GetDT() { return m_dDT; }

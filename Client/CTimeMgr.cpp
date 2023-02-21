@@ -9,7 +9,7 @@ CTimeMgr::CTimeMgr()
 	, m_llPrevCount{}
 	, m_llFrequency{}
 	, m_dDT(0.)
-	, m_dAcc(0)
+	, m_dAcc(0.)
 	, m_iCallCount()
 {
 }
@@ -46,6 +46,15 @@ void CTimeMgr::update()
 
 	// = 1. / m_dDT; 이렇게 해도 FPS가 나오긴 하지만,  아무래도 계속 변동하기 때문에 좀 불안정해
 	// 그래서 그냥 1초동안 세자
+	
+
+	
+
+
+}
+
+void CTimeMgr::render()
+{
 	++m_iCallCount;
 	m_dAcc += m_dDT; // DT 누적 = 시간 누적
 
@@ -59,8 +68,5 @@ void CTimeMgr::update()
 		swprintf_s(szBuffer, L"FPS : %d, DT : %f", m_iFPS, m_dDT);
 		SetWindowText(CCore::GetInst()->GetMainHwnd(), szBuffer);
 	}
-
-	
-
 
 }
