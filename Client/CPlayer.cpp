@@ -11,6 +11,7 @@
 
 #include "CTexture.h"
 #include "CMissile.h"
+#include "CCollider.h"
 
 
 
@@ -19,6 +20,10 @@ CPlayer::CPlayer()
 {
 	// CResMgr 이용해서 로딩
 	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\Player.bmp");
+
+	CreateCollider();
+	GetCollider()->SetOffsetPos(Vec2(0.f, 3.f));
+	GetCollider()->SetScale(Vec2(20.f, 35.f));
 
 	// Texture 로딩하기
 	// m_pTex = new CTexture;
@@ -102,6 +107,9 @@ void CPlayer::render(HDC _dc)
 		, 0, 0, iWidth, iHeight
 		, RGB(255,0,255));
 	// 특정 색을 무시하고 옮겨 그리는 함수, 
+
+	// 컴포넌트(충동체, etc...) 가 있는 경우 실행
+	component_render(_dc);
 }
 
 void CPlayer::CreateMissile()

@@ -30,6 +30,7 @@ public:
 
 
 	void update();
+	void finalupdate();
 	void render(HDC _dc);
 
 	virtual void Enter() = 0;
@@ -48,6 +49,10 @@ public:
 		m_arrObj[(UINT)_eType].push_back(_pObj);
 	}
 	// 대신 이렇게 헤더에 바로 구현해서 inline 함수로 만들어서 호출 비용이 들지 않게끔 한다.
+	const vector<CObject*>& GetGroupObject(GROUP_TYPE _eType) { return m_arrObj[(UINT)_eType]; }
+	// 원본을 줘야 제대로 충돌 검사를 하지. 근데 값이 훼손되면 안되겠지?
+	
+	
 
 public:
 	CScene();

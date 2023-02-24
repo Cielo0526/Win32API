@@ -2,6 +2,7 @@
 #include "CMonster.h"
 
 #include "CTimeMgr.h"
+#include "CCollider.h"
 
 CMonster::CMonster()
 	: m_vCenterPos(Vec2(0.f, 0.f))
@@ -9,7 +10,8 @@ CMonster::CMonster()
 	, m_fMaxDistance(50.f)
 	, m_iDir(1)
 {
-
+	CreateCollider();
+	GetCollider()->SetScale(Vec2(40.f, 40.f));
 }
 
 CMonster::~CMonster()
@@ -20,6 +22,7 @@ CMonster::~CMonster()
 
 void CMonster::update()
 {
+	return;
 	Vec2 vCurPos = GetPos();
 	
 	// 현재 진행 방향으로 시간당 m_fSpeed 만큼 이동

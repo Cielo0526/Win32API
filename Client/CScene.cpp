@@ -43,6 +43,18 @@ void CScene::update()
 	}
 }
 
+// 업데이트(움직임)은 다 끝났고, 그 후에 확정적으로 해줘야할 일들
+void CScene::finalupdate()
+{
+	for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)
+	{
+		for (size_t j = 0; j < m_arrObj[i].size(); ++j)
+		{
+			m_arrObj[i][j]->finalupdate();
+		}
+	}
+}
+
 void CScene::render(HDC _dc)
 {
 	for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)

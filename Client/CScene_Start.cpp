@@ -11,6 +11,8 @@
 #include "CPathMgr.h"
 #include "CTexture.h"
 
+#include "CCollisionMgr.h"
+
 CScene_Start::CScene_Start()
 {
 }
@@ -27,11 +29,11 @@ void CScene_Start::Enter()
 	CObject* pObj = new CPlayer;
 	pObj->SetPos(Vec2(640.f, 384.f));
 	pObj->SetScale(Vec2(100.f, 100.f));
-	AddObject(pObj, GROUP_TYPE::DEFAULT);
+	AddObject(pObj, GROUP_TYPE::PLAYER);
 
 
 	// Moster Object 추가
-	int iMonCount = 16;
+	int iMonCount = 6;
 	float fMoveDist = 25.f;
 	float fMoveDist2 = 50.f;
 	float fObjScale = 50.f;
@@ -49,7 +51,7 @@ void CScene_Start::Enter()
 		pMonsterObj->SetCenterPos(pMonsterObj->GetPos());
 		pMonsterObj->SetMoveDistance(fMoveDist);
 		pMonsterObj->SetScale(Vec2(fObjScale, fObjScale));
-		AddObject(pMonsterObj, GROUP_TYPE::DEFAULT);
+		AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
 
 	}
 
@@ -60,14 +62,18 @@ void CScene_Start::Enter()
 		pMonsterObj->SetCenterPos(pMonsterObj->GetPos());
 		pMonsterObj->SetMoveDistance(fMoveDist2);
 		pMonsterObj->SetScale(Vec2(fObjScale, fObjScale));
-		AddObject(pMonsterObj, GROUP_TYPE::DEFAULT);
+		AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
 
 	}
 
-
+	// 충돌 지정
+	// Player 그룹과 Monster 그룹 간의 충돌 체크
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 }
 
 void CScene_Start::Exit()
 {
+	// 씬이 끝나고 다른 씬으로 넘어갈 땐 다른 애들끼리 충돌하게 할 수도 있으니까 위에 충돌 체크한걸 해제해야지
+	CCollisionMgr::GetInst()->Reset();
 
 }

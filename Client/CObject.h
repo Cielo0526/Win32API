@@ -38,12 +38,20 @@ public:
 	Vec2 GetPos() { return m_vPos; }
 	Vec2 GetScale() { return m_vScale; }
 
+	CCollider* GetCollider() { return m_pCollider; }
+
 	void CreateCollider();
 	
 
 public:
 	virtual void update() = 0;
+	virtual void finalupdate() final;
+	/* Collider 는 하나 있어.그리고 Collider를 가진, 충돌이 가능한 오브젝트들은 Collider의 주소를 가지고 있지.
+	   그러면 Collider는 충돌기능 가진 오브젝트들마다 다 따로따로 실행해줘야해? 아니지
+	   다른 오브젝트들도 Collider를 가지고 있는게 아냐. CreateCollider로  가지고 있는거지*/
 	virtual void render(HDC _dc);
+
+	void component_render(HDC _dc);
 
 
 	// 오브젝트들도 여러가지 성격이 있어. 수풀은 그냥 시간 내내 흔들거릴거고,

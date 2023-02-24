@@ -5,6 +5,7 @@
 #include "CSceneMgr.h"
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
+#include "CCollisionMgr.h"
 //CCore* CCore::g_pInst = nullptr;
 
 CCore::CCore()
@@ -13,6 +14,8 @@ CCore::CCore()
 	, m_hDC(0)
 	, m_hBit(0)
 	, m_memDC(0)
+	, m_arrBrush{}
+	, m_arrPen{}
 {
 
 }
@@ -25,6 +28,12 @@ CCore::~CCore()
 	DeleteObject(m_hBit);
 	// -> 윈도우와 연결된 DC와는 다르게 이렇게 이중 버퍼링에 쓰는 DC랑 비트맵은 딜리트로 없애줘야함
 	// 이유는 몰라 레퍼런스에서 그렇게 하래
+
+	for (int i = 0; i < (UINT)PEN_TYPE::END; i++)
+	{
+		DeleteObject(m_arrPen[i]);
+	}
+
 }
 
 
@@ -54,6 +63,9 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	// DC를 만들면 걔는 기본적으로 1픽셀짜리 비트맵을 받아. 그래서 그걸 hBit으로 목적지를 바꿔줘
 	DeleteObject(hOldBit);
 	// 그리고 환원받은 1픽셀짜리 기본 비트맵을 버려
+
+	// 자주 사용 할 펜 및 브러쉬 생성
+	CreateBrushPen();
 
 	// Manager 초기화
 	CPathMgr::GetInst()->init();
@@ -92,7 +104,9 @@ void CCore::progress()
 	CKeyMgr::GetInst()->update();
 
 	CSceneMgr::GetInst()->update();
+	CCollisionMgr::GetInst()->update();
 	// 물체들의 변경점 체크 (좌표 등등)
+	// 그 후 충돌 검사
 	
 
 	// ===========
@@ -111,4 +125,16 @@ void CCore::progress()
 		, m_memDC, 0, 0, SRCCOPY);
 
 	//CTimeMgr::GetInst()->render();
+}
+
+void CCore::CreateBrushPen()
+{
+	// hollow brush
+	m_arrBrush[(UINT)BRUSH_TYPE::HOLLOW] = (HBRUSH)GetStockObject(HOLLOW_BRUSH); // 얘는 애초에 Window 에서도 비슷한 생각으로 만들어둔거라 알아서 없어져. 소멸 신경 쓸 필요 x
+
+	// red green blue pen
+	m_arrPen[(UINT)PEN_TYPE::RED] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+	m_arrPen[(UINT)PEN_TYPE::GREEN] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+	m_arrPen[(UINT)PEN_TYPE::BLUE] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
+
 }
